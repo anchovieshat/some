@@ -22,10 +22,12 @@ File::File(const string &name) : name(name) {
 
 string File::parseLinks(string &line) {
 	size_t loc;
-	if(((loc = line.find("<a ")) != string::npos) && (line.find(">", loc) != string::npos)) {
-		string link = line.substr(loc+3, line.find(' ', loc+3)-(loc+3));
+	size_t end;
+	if(((loc = line.find("<a ")) != string::npos) && ((end = line.find(">", loc)) != string::npos)) {
+		string link = line.substr(loc+3, end-(loc+3));
 		links.push_back(link);
-        return link;
+		line = line.substr(0, loc) + link.substr(link.find(' ')+1) + line.substr(end+1);
+        return line;
 	}
 	return line;
 }

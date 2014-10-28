@@ -25,8 +25,9 @@ void Viewer::setFile(File &file) {
 	lineMarker = 0;
 	if(length > (int)file.getData().size())
 		length = file.getData().size();
-	for(auto line : file.getLinks()) {
-		std::cout << line << std::endl;
+	auto data = file.getLinks();
+	for(int i = 0; i < (int) data.size(); i++) {
+		std::cout << data[i] << " [" << (i+1) << "]" <<  std::endl;
 	}
 	std::cout << std::endl;
 }
