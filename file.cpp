@@ -1,5 +1,6 @@
 #include <fstream>
 #include <stdexcept>
+#include <iostream>
 #include "file.h"
 using std::string;
 using std::ifstream;
@@ -12,9 +13,19 @@ File::File(const string &name) : name(name) {
 	}
 	while(!file.eof()) {
 		std::getline(file, templine);
-		data.push_back(templine);
+		data.push_back(parseLinks(templine));
 	}
 	if (data.size() != 0 && data[data.size() - 1] == "") {
 		data.pop_back();
 	}
+}
+
+string File::parseLinks(string &line) {
+	size_t loc;
+	if(((loc = line.find("<a ")) != string::npos) && (line.find(">", loc) != string::npos)) {
+		string link = line.substr(loc+3, line.find(' ', loc+3)-(loc+3));
+		links.push_back(link);
+        return link;
+	}
+	return line;
 }

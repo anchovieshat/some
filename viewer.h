@@ -11,15 +11,10 @@ class Viewer {
 	int width;
 
 	public:
-	Viewer(const File &, const int length, const int width);
+	Viewer(File &, const int length, const int width);
 	void render();
 	char getInput();
-	void setFile(const File &file) {
-		this->file = file;
-		lineMarker = 0;
-		if(length > (int)file.getData().size())
-			length = file.getData().size();
-	}
+	void setFile(File &file);
 	void next();
 	void prev();
 	void nextLine(const std::string & line, const int lineNumber);

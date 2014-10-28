@@ -4,7 +4,7 @@
 #include <cmath>
 #include "viewer.h"
 
-Viewer::Viewer(const File &file, const int length, const int width) : file(file), lineMarker(0), length(length), width(width) {
+Viewer::Viewer(File &file, const int length, const int width) : file(file), lineMarker(0), length(length), width(width) {
 	setFile(file);
 }
 
@@ -16,8 +16,19 @@ void Viewer::render() {
 		nextLine(file.getData()[i+lineMarker], i+lineMarker+1);
 	}
 	std::cout << "--------------------------------------------------" << std::endl;
-	std::cout << "  next  previous  open  quit" << std::endl;
+	std::cout << "  next  previous  open  go  quit" << std::endl;
 	std::cout << "-------" << std::endl;
+}
+
+void Viewer::setFile(File &file) {
+	this->file = file;
+	lineMarker = 0;
+	if(length > (int)file.getData().size())
+		length = file.getData().size();
+	for(auto line : file.getLinks()) {
+		std::cout << line << std::endl;
+	}
+	std::cout << std::endl;
 }
 
 char Viewer::getInput() {

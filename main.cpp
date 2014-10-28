@@ -42,7 +42,8 @@ int main(int argc, char **argv) {
 			std::string name;
 			std::cin >> name;
 			try {
-				viewer.setFile(File(name));
+				File file(name);
+				viewer.setFile(file);
 			} catch (const std::invalid_argument &e) {
 				std::cout << e.what() << endl;
 			}
