@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <limits>
 #include "file.h"
 #include "viewer.h"
 
@@ -52,11 +53,16 @@ int main(int argc, char **argv) {
 				int link;
 				std::cin >> link;
 				if(link > viewer.getMax() || link <= 0 || std::cin.fail()) {
-					std::cin.clear();
 					std::cout << "No link available for that value!" << std::endl;
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				} else {
-					File file(viewer.getLink(link));
-					viewer.setFile(file);
+					try {
+						File file(viewer.getLink(link));
+						viewer.setFile(file);
+					} catch (const std::invalid_argument &e) {
+						std::cout << e.what() << endl;
+					}
 				}
 			}
 		}
