@@ -26,33 +26,40 @@ int main(int argc, char **argv) {
 		width = atoi(argv[3]);
 	}
 	try {
-	File file(argv[1]);
-    Viewer viewer(file, length, width);
-	while(1) {
-		viewer.render();
-		command = viewer.getInput();
-		if(command == 'q') {
-			break;
-		} else if(command == 'n') {
-			viewer.next();
-		} else if(command == 'p') {
-			viewer.prev();
-		} else if(command == 'o') {
-			std::cout << "file: ";
-			std::string name;
-			std::cin >> name;
-			try {
-				File file(name);
-				viewer.setFile(file);
-			} catch (const std::invalid_argument &e) {
-				std::cout << e.what() << endl;
+		File file(argv[1]);
+		Viewer viewer(file, length, width);
+		while(1) {
+			viewer.render();
+			command = viewer.getInput();
+			if(command == 'q') {
+				break;
+			} else if(command == 'n') {
+				viewer.next();
+			} else if(command == 'p') {
+				viewer.prev();
+			} else if(command == 'o') {
+				std::cout << "file: ";
+				std::string name;
+				std::cin >> name;
+				try {
+					File file(name);
+					viewer.setFile(file);
+				} catch (const std::invalid_argument &e) {
+					std::cout << e.what() << endl;
+				}
+			} else if(command == 'g') {
+				std::cout << "link number: ";
+				int link;
+				std::cin >> link;
+				if(link > viewer.getMax() || link <= 0 || std::cin.fail()) {
+					std::cin.clear();
+					std::cout << "No link available for that value!" << std::endl;
+				} else {
+					File file(viewer.getLink(link));
+					viewer.setFile(file);
+				}
 			}
-		} else if(command == 'g') {
-			std::cout << "link number: ";
-			int link;
-			std::cin >> link;
 		}
-	}
 	} catch ( const std::invalid_argument &e) {
 		std::cout << e.what() << endl;
 		return 1;

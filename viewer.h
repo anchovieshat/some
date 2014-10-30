@@ -2,6 +2,7 @@
 #define VIEWER_H
 
 #include <iostream>
+#include <string>
 #include "file.h"
 
 class Viewer {
@@ -18,6 +19,10 @@ class Viewer {
 	void next();
 	void prev();
 	void nextLine(const std::string & line, const int lineNumber);
+	std::string getLink(const int link);
+	int getMax() {
+    	return file.getIndex();
+	}
 };
 
 #endif

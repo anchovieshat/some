@@ -80,3 +80,10 @@ void Viewer::nextLine(const std::string &line, const int lineNumber) {
 		}
 	}
 }
+
+std::string Viewer::getLink(const int link) {
+	std::string line = file.getLinks()[link-1];
+	line = line.substr(0, line.find(' '));
+	return line;
+}
+

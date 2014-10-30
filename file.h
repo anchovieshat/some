@@ -8,6 +8,7 @@ class File {
 	std::string name;
 	std::vector<std::string> data;
 	std::vector<std::string> links;
+	int index = 0;
 
 	public:
 	File(const std::string &);
@@ -26,6 +27,9 @@ class File {
 		return name;
 	}
 
+	int getIndex() {
+		return index;
+	}
 };
 
 #endif

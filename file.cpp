@@ -24,9 +24,10 @@ string File::parseLinks(string &line) {
 	size_t loc;
 	size_t end;
 	if(((loc = line.find("<a ")) != string::npos) && ((end = line.find(">", loc)) != string::npos)) {
+		index += 1;
 		string link = line.substr(loc+3, end-(loc+3));
 		links.push_back(link);
-		line = line.substr(0, loc) + link.substr(link.find(' ')+1) + line.substr(end+1);
+		line = line.substr(0, loc) + "<<" + link.substr(link.find(' ')+1) + ">>" +  "[" + std::to_string(index) + "]" + line.substr(end+1);
         return line;
 	}
 	return line;
