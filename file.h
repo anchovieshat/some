@@ -12,6 +12,7 @@ class File {
 
 	public:
 	File(const std::string &);
+	File();
 
 	std::string parseLinks(std::string &);
 

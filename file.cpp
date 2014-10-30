@@ -20,6 +20,8 @@ File::File(const string &name) : name(name) {
 	}
 }
 
+File::File() : name ("<no file>") {}
+
 string File::parseLinks(string &line) {
 	size_t loc;
 	size_t end;

@@ -13,21 +13,36 @@ int main(int argc, char **argv) {
 	char command;
 	int length;
 	int width;
-	if(argc < 2) {
-		cerr << "Needs 1 or more argument(s)" << endl;
-		return 1;
-	}
+	std::string filepath;
 	if(argc != 4) {
 		std::cout << "Height of Viewer: ";
 		std::cin >> length;
 		std::cout << "Width of Text: ";
 		std::cin >> width;
+		if(std::cin.fail()) {
+			std::cout << "Not a proper length or width" << std::endl;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			length = 25;
+			width = 70;
+		} else {
+			if(length <= 0) {
+				length = 1;
+			}
+			if(width <= 0) {
+				width = 1;
+			}
+		}
 	} else {
 		length = atoi(argv[2]);
 		width = atoi(argv[3]);
 	}
 	try {
-		File file(argv[1]);
+		File file;
+		if(argc != 1) {
+			filepath = argv[1];
+			file = File(filepath);
+		}
 		Viewer viewer(file, length, width);
 		while(1) {
 			viewer.render();

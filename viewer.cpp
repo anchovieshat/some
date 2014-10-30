@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <string>
 #include <cmath>
+#include <algorithm>
 #include "viewer.h"
 
 Viewer::Viewer(File &file, const int length, const int width) : file(file), lineMarker(0), length(length), width(width) {
@@ -12,7 +13,7 @@ void Viewer::render() {
 	std::string name = file.getName();
 	std::cout << name.substr(name.rfind('/')+1) << std::endl;
 	std::cout << "--------------------------------------------------" << std::endl;
-	for(int i = 0; i < length; i++) {
+	for(int i = 0; i < std::min(length, (int)file.getData().size()); i++) {
 		nextLine(file.getData()[i+lineMarker], i+lineMarker+1);
 	}
 	std::cout << "--------------------------------------------------" << std::endl;
@@ -21,21 +22,15 @@ void Viewer::render() {
 }
 
 void Viewer::setFile(File &file) {
+	std::cout << "File size is " << file.getData().size() << std::endl;
 	this->file = file;
 	lineMarker = 0;
-	if(length > (int)file.getData().size())
-		length = file.getData().size();
-	auto data = file.getLinks();
-	for(int i = 0; i < (int) data.size(); i++) {
-		std::cout << data[i] << " [" << (i+1) << "]" <<  std::endl;
-	}
-	std::cout << std::endl;
 }
 
 char Viewer::getInput() {
 	std::cout << "command: ";
 	char command;
-    std::cin >> command;
+	std::cin >> command;
 	return command;
 }
 
@@ -45,6 +40,8 @@ void Viewer::next() {
 	} else {
 		lineMarker += length;
 	}
+	if (lineMarker < 0)
+		lineMarker = 0;
 }
 
 void Viewer::prev() {
